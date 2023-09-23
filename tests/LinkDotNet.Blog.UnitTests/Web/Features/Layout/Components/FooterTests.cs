@@ -1,5 +1,6 @@
 using LinkDotNet.Blog.Domain;
 using LinkDotNet.Blog.Web;
+using LinkDotNet.Blog.Web.Features.Layout.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 

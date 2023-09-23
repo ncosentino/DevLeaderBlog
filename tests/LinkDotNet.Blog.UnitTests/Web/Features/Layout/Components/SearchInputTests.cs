@@ -1,4 +1,6 @@
-﻿namespace LinkDotNet.Blog.UnitTests.Web.Features.Layout.Components;
+﻿using LinkDotNet.Blog.Web.Features.Layout.Components;
+
+namespace LinkDotNet.Blog.UnitTests.Web.Features.Layout.Components;
 
 public class SearchInputTests : TestContext
 {

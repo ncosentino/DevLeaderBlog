@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using LinkDotNet.Blog.Domain;
 using LinkDotNet.Blog.Web;
 using LinkDotNet.Blog.Web.Features.Home.Components;
+using LinkDotNet.Blog.Web.Features.Layout.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
