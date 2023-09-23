@@ -1,0 +1,17 @@
+﻿@page "/create"
+@attribute [Authorize]
+@using LinkDotNet.Blog.Domain
+@using LinkDotNet.Blog.Infrastructure.Persistence
+@using LinkDotNet.Blog.Web.Features.Admin.BlogPostEditor.Components
+@inject IRepository<BlogPost> BlogPostRepository
+@inject IToastService ToastService
+
+<CreateNewBlogPost Title="Create new BlogPost" OnBlogPostCreated="@(StoreBlogPostAsync)" ></CreateNewBlogPost>
+
+@code {
+    private async Task StoreBlogPostAsync(BlogPost blogPost)
+    {
+        await BlogPostRepository.StoreAsync(blogPost);
+        ToastService.ShowInfo($"Created BlogPost {blogPost.Title}");
+    }
+}

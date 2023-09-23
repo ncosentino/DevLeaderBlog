@@ -1,0 +1,9 @@
+.actions {
+    float:right;
+}
+
+.actions * {
+    margin-left: 5px;
+    margin-top: 25px;
+    width: 125px;
+}

@@ -1,0 +1,21 @@
+@inject AppConfiguration AppConfiguration
+
+@if (MultipleCommentPlugins)
+{
+    <div class="alert alert-danger" role="alert">
+        There are multiple comment sections configured. Please set up the configuration so that only one comment section is active.
+    </div>
+}
+
+@if (AppConfiguration.IsDisqusEnabled)
+{
+    <Disqus></Disqus>
+}
+@if (AppConfiguration.IsGiscusEnabled)
+{
+    <Giscus></Giscus>
+}
+
+@code {
+    private bool MultipleCommentPlugins => AppConfiguration.IsDisqusEnabled && AppConfiguration.IsGiscusEnabled;
+}

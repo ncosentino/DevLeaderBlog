@@ -1,0 +1,13 @@
+@page "/logout"
+@using LinkDotNet.Blog.Web.Authentication
+@inject ILoginManager LoginManager
+
+@code {
+	[SupplyParameterFromQuery]
+	public string RedirectUri { get; set; }
+
+	protected override Task OnInitializedAsync()
+	{
+		return LoginManager.SignOutAsync(RedirectUri);
+	}
+}

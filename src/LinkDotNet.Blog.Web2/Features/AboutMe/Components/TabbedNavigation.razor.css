@@ -1,0 +1,5 @@
+.nav>.nav-item>button {
+    border: 0;
+    background: transparent !important;
+    color: var(--bs-body-color) !important;
+}

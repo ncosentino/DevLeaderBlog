@@ -1,0 +1,13 @@
+﻿@using Blazored.Toast.Configuration
+@using LinkDotNet.Blog.Web.Features.Layout.Components
+@inherits LayoutComponentBase
+
+<BlazoredToasts Position="ToastPosition.BottomRight" />
+<div class="position-relative min-vh-100">
+    <NavMenu/>
+
+    <main class="pt-3 pb-5">
+        @Body
+    </main>
+    <Footer></Footer>
+</div>

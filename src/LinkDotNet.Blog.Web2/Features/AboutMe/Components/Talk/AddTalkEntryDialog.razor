@@ -1,0 +1,51 @@
+@using LinkDotNet.Blog.Domain
+<ModalDialog @ref="Dialog" Title="Add Talk">
+    <EditForm Model="model" OnValidSubmit="CreateTalk">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="talk-title">Presentation title</label>
+            <InputText class="form-control" id="talk-title" @bind-Value="model.PresentationTitle" />
+        </div>
+        <div class="mb-3">
+            <label for="talk-place">Presentation place</label>
+            <InputText class="form-control" id="talk-place" @bind-Value="model.Place" />
+            <small for="talk-place" class="form-text text-body-secondary">The place / event where you hold the presentation / talk.</small>
+        </div>
+        <div class="mb-3">
+            <label for="talk-date">Date</label>
+            <InputDate class="form-control" id="talk-date" @bind-Value="model.PublishedDate" />
+        </div>
+        <div class="mb-3">
+            <label for="talk-content">Description</label>
+            <TextAreaWithShortcuts id="talk-content" class="form-control" Rows="10"
+                           @bind-Value="@model.Description"></TextAreaWithShortcuts>
+            <small for="talk-content" class="form-text text-body-secondary">You can use markdown to style your component.</small>
+        </div>
+        <button id="talk-submit" class="btn btn-primary" type="submit">Submit</button>
+    </EditForm>
+</ModalDialog>
+
+@code {
+
+    [Parameter]
+    public EventCallback<Talk> TalkCreated { get; set; }
+
+    private ModalDialog Dialog { get; set; }
+    private AddTalkEntryModel model = new();
+
+    public void Open()
+    {
+        Dialog.Open();
+        StateHasChanged();
+    }
+
+    private async Task CreateTalk()
+    {
+        var talk = Talk.Create(model.PresentationTitle, model.Place, model.Description, model.PublishedDate);
+        await TalkCreated.InvokeAsync(talk);
+        model = new AddTalkEntryModel();
+        Dialog.Close();
+    }
+}
