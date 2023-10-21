@@ -17,7 +17,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddRazorComponents()
-            .AddServerComponents();
+            .AddInteractiveServerComponents();
         var appConfiguration = AppConfigurationFactory.Create(builder.Configuration);
         builder.Services.AddSingleton(_ => appConfiguration);
         builder.Services.AddBlazoredToast();
@@ -52,8 +52,11 @@ public class Program
         app.UseStaticFiles();
 
         app.MapRazorComponents<App>()
-            .AddServerRenderMode();
+            .AddInteractiveServerRenderMode();
         app.MapControllers();
+
+        app.UseAntiforgery();
+        app.UseStatusCodePagesWithRedirects("/NotFound");
 
         app.Run();
     }
