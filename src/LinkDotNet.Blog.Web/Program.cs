@@ -18,8 +18,6 @@ public class Program
 
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
-        var appConfiguration = AppConfigurationFactory.Create(builder.Configuration);
-        builder.Services.AddSingleton(_ => appConfiguration);
         builder.Services.AddBlazoredToast();
         builder.Services.RegisterServices();
         builder.Services.AddStorageProvider(builder.Configuration);

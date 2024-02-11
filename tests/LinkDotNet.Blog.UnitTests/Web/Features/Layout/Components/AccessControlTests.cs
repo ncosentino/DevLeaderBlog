@@ -1,5 +1,5 @@
 ﻿using AngleSharp.Html.Dom;
-using LinkDotNet.Blog.Web.Features.Home.Components;
+using LinkDotNet.Blog.Web.Features.Layout.Components;
 
 namespace LinkDotNet.Blog.UnitTests.Web.Features.Layout.Components;
 
