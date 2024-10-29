@@ -80,10 +80,15 @@
 			<InputText type="text" class="form-control" id="tags" placeholder="Tags" @bind-Value="model.Tags"/>
 			<label for="tags">Tags</label>
 		</div>
+		<div class="form-check form-switch mb-3">
+			<InputCheckbox class="form-check-input" id="members-only"  @bind-Value="model.IsMembersOnly" />
+			<label class="form-check-label" for="members-only">Members only?</label><br/>
+			<small for="updatedate" class="form-text text-body-secondary">The blog post can only be read by members.</small>
+		</div>
 		@if (BlogPost is not null && !IsScheduled)
 		{
 		<div class="form-check form-switch mb-3">
-			<InputCheckbox class="form-check-input" id="updatedate"  @bind-Value="model.ShouldUpdateDate" />
+			<InputCheckbox class="form-check-input" id="updatedate" @bind-Value="model.ShouldUpdateDate" />
 			<label class="form-check-label" for="updatedate">Update Publish Date</label><br/>
 			<small for="updatedate" class="form-text text-body-secondary">If set the publish date is set to now,
 				otherwise its original date.</small>
