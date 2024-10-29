@@ -1,11 +1,13 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
+using System;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace LinkDotNet.Blog.Web.Authentication.OpenIdConnect;
 
@@ -53,6 +55,12 @@ public static class AuthExtensions
             };
         });
 
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+            options.AddPolicy("Member", policy => policy.RequireRole("Member"));
+        });
+
         services.AddHttpContextAccessor();
         services.AddScoped<ILoginManager, AuthLoginManager>();
     }
@@ -68,12 +76,28 @@ public static class AuthExtensions
                 postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
             }
 
-            auth.LogoutUri += $"&returnTo={Uri.EscapeDataString(postLogoutUri)}";
+            auth.LogoutUri = ReplaceQueryParameter(auth.LogoutUri, "returnTo", postLogoutUri);
         }
 
         context.Response.Redirect(auth.LogoutUri);
         context.HandleResponse();
 
         return Task.CompletedTask;
+    }
+
+    private static string ReplaceQueryParameter(string originalUrl, string parameterName, string parameterValue)
+    {
+        var uri = new Uri(originalUrl);
+
+        var queryParams = HttpUtility.ParseQueryString(uri.Query);
+        queryParams.Remove(parameterName);
+        queryParams.Add(parameterName, parameterValue);
+
+        var uriBuilder = new UriBuilder(uri)
+        {
+            Query = queryParams.ToString()
+        };
+
+        return uriBuilder.ToString();
     }
 }

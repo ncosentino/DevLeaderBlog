@@ -13,72 +13,89 @@
 @inject IOptions<ApplicationConfiguration> AppConfiguration
 @inject IOptions<ProfileInformation> ProfileInformation
 @inject IOptions<SupportMeConfiguration> SupportConfiguration
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>@BlogPost.Title</PageTitle>
 <OgData
-    Title="@BlogPost.Title"
-    AbsolutePreviewImageUrl="@OgDataImage"
-    Description="@(Markdown.ToPlainText(BlogPost.ShortDescription))"
-    Keywords="@BlogPost.TagsAsString"
-    CanonicalRelativeUrl="@BlogPostCanonicalUrl">
+Title="@BlogPost.Title"
+AbsolutePreviewImageUrl="@OgDataImage"
+Description="@(Markdown.ToPlainText(BlogPost.ShortDescription))"
+Keywords="@BlogPost.TagsAsString"
+CanonicalRelativeUrl="@BlogPostCanonicalUrl">
     <StructuredData
-        Headline="@BlogPost.Title"
-        PreviewImage="@BlogPost.PreviewImageUrl"
-        PreviewFallbackImage="@BlogPost.PreviewImageUrlFallback"
-        PublishedDate="@BlogPost.UpdatedDate"
-        Author="@ProfileInformation.Value.Name"/>
+    Headline="@BlogPost.Title"
+    PreviewImage="@BlogPost.PreviewImageUrl"
+    PreviewFallbackImage="@BlogPost.PreviewImageUrlFallback"
+    PublishedDate="@BlogPost.UpdatedDate"
+    Author="@ProfileInformation.Value.Name"/>
 </OgData>
 
 <div class="d-flex justify-content-center pt-2 blog-outer-box">
-    <div class="blog-container">                 
-        <div class="blog-inner-content">
-            <header class="text-center">
-                <h1 class="fw-bold">@BlogPost.Title</h1>
-            </header>
-            <div class="text-dark-emphasis d-flex flex-wrap gap-2">
-                <div class="me-2">
-                    <span class="date"></span>
-                    <span class="ms-1">@BlogPost.UpdatedDate.ToShortDateString()</span>
-                </div>
-                @if (BlogPost.Tags is not null && BlogPost.Tags.Any())
-                {
-                    <div class="d-flex align-items-center">
-                        <span class="blogpost-tag me-2"></span>
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach (var tag in BlogPost.Tags)
-                            {
-                                <a class="goto-tag badge bg-primary rounded-pill text-decoration-none" href="/searchByTag/@(Uri.EscapeDataString(tag))">@tag</a>
-                            }
-                        </div>
+    <div class="blog-container">
+        @if (hasPermission == true)
+        {
+            <div class="blog-inner-content">
+                <header class="text-center">
+                    <h1 class="fw-bold">@BlogPost.Title</h1>
+                </header>
+                <div class="text-dark-emphasis d-flex flex-wrap gap-2">
+                    <div class="me-2">
+                        <span class="date"></span>
+                        <span class="ms-1">@BlogPost.UpdatedDate.ToShortDateString()</span>
                     </div>
-                }
-            </div>
+                    @if (BlogPost.Tags is not null && BlogPost.Tags.Any())
+                    {
+                        <div class="d-flex align-items-center">
+                            <span class="blogpost-tag me-2"></span>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var tag in BlogPost.Tags)
+                                {
+                                    <a class="goto-tag badge bg-primary rounded-pill text-decoration-none" href="/searchByTag/@(Uri.EscapeDataString(tag))">@tag</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
 
-            <div class="pt-2">
-                <BlogPostAdminActions BlogPostId="@BlogPost.Id"></BlogPostAdminActions>
-            </div>
+                <div class="pt-2">
+                    <BlogPostAdminActions BlogPostId="@BlogPost.Id"></BlogPostAdminActions>
+                </div>
 
-            <div class="pt-2">
-                <TableOfContents Content="@BlogPost.Content" CurrentUri="@NavigationManager.Uri"></TableOfContents>
-            </div>
+                <div class="pt-2">
+                    <TableOfContents Content="@BlogPost.Content" CurrentUri="@NavigationManager.Uri"></TableOfContents>
+                </div>
 
-            <div class="blogpost-content">
-                @(EnrichWithShortCodes(BlogPost.Content))
+                <div class="blogpost-content">
+                    @(EnrichWithShortCodes(BlogPost.Content))
+                </div>
             </div>
-        </div>
+        }
+        else if (hasPermission == false)
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                <h1 class="fs-3">This content is only available for members.</h1>
+            </div>
+        }
+
         <div class="d-flex justify-content-between py-2 border-top border-bottom align-items-center">
             <Like BlogPost="@BlogPost" OnBlogPostLiked="@UpdateLikes"></Like>
             <ShareBlogPost></ShareBlogPost>
         </div>
+
         @if (SupportConfiguration.Value.ShowUnderBlogPost)
         {
             <DonationSection />
         }
+
         @if (AppConfiguration.Value.ShowSimilarPosts)
         {
             <SimilarBlogPostSection BlogPost="@BlogPost" />
         }
-        <CommentSection></CommentSection>
+
+        @if (hasPermission == true)
+        {
+            <CommentSection></CommentSection>
+        }
 
         @if (AppConfiguration.Value.ShowReadingIndicator)
         {
@@ -96,10 +113,26 @@
 
     private string OgDataImage => BlogPost!.PreviewImageUrlFallback ?? BlogPost.PreviewImageUrl;
     private IReadOnlyCollection<ShortCode> shortCodes = [];
+    private bool? hasPermission; // tri-state to avoid flickering on load
 
     protected override async Task OnInitializedAsync()
     {
         shortCodes = await ShortCodeRepository.GetAllAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (BlogPost?.IsMembersOnly ?? false)
+        {
+            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            hasPermission = state.User.IsInRole("Admin") || state.User.IsInRole("Member");
+        }
+        else
+        {
+            hasPermission = true;
+        }
+
+        await base.OnParametersSetAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
