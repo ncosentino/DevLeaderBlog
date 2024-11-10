@@ -1,0 +1,55 @@
+@page "/{year:int}/{month:int}/{day:int}/{slug?}"
+@using System.Text
+@using Markdig
+@using LinkDotNet.Blog.Domain
+@using LinkDotNet.Blog.Infrastructure.Persistence
+@using LinkDotNet.Blog.Web.Features.Services
+@using LinkDotNet.Blog.Web.Features.ShowBlogPost.Components
+@using LinkDotNet.Blog.Web.Features.SupportMe.Components
+@inject IRepository<BlogPost> BlogPostRepository
+
+@if (isLoading)
+{
+    <Loading></Loading>
+}
+else if (!isLoading && BlogPost is null)
+{
+    <NoBlogPostFound />
+}
+else if (BlogPost is not null)
+{
+    <BlogPostComponent BlogPost="@BlogPost" BlogPostCanonicalUrl="@BlogPostCanonicalUrl" />
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public required int Year { get; set; }
+
+    [Parameter, EditorRequired]
+    public required int Month { get; set; }
+
+    [Parameter, EditorRequired]
+    public required int Day { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Slug { get; set; }
+
+    private bool isLoading;
+    private string BlogPostCanonicalUrl => $"{Year}/{Month}/{Day}/{Slug}";
+    private BlogPost? BlogPost { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+
+        // FIXME: support the slug matching... this assumes
+        // only one blog post per day
+        BlogPost = (await BlogPostRepository
+            .GetAllAsync(bp =>
+                   bp.UpdatedDate.Year == Year
+                && bp.UpdatedDate.Month == Month
+                && bp.UpdatedDate.Day == Day))
+            .FirstOrDefault();
+	    isLoading = false;
+    }
+}
