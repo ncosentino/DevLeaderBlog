@@ -1,0 +1,26 @@
+@page "/youtube-videos-from-devleader"
+@using LinkDotNet.Blog.Infrastructure.Persistence
+@using LinkDotNet.Blog.Domain
+@using System.Collections.Immutable
+@using System.Globalization
+@inject NavigationManager NavigationManager
+
+<OgData Title="Dev Leader YouTube Videos" Description=""></OgData>
+
+@code {
+    protected override void OnInitialized()
+    {
+        try
+        {
+            NavigationManager.NavigateTo("https://www.youtube.com/@devleader?sub_confirmation=1");
+        }
+        catch
+        {
+            // https://stackoverflow.com/a/65141047/2704424
+            // Yes, it is completely safe to ignore it. The debugger stops because
+            // it is configured to do so, but in this case the exception is always
+            // handled. You can turn-off breaking on this exception if it's caught
+            // on the debugger settings.
+        }
+    }
+}

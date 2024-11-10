@@ -1,0 +1,38 @@
+@page "/newsletter"
+@using LinkDotNet.Blog.Infrastructure.Persistence
+@using LinkDotNet.Blog.Domain
+@using System.Collections.Immutable
+@using System.Globalization
+
+<OgData Title="Newsletter Sponsorship" Description="Sponsor my newsletter!"></OgData>
+
+<div class="container">
+    <div style="text-align: center;">
+        <iframe src="https://weekly.devleader.ca/embed" width="600" height="500" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <div>
+        <h2>What Is Dev Leader Weekly Newsletter?</h2>
+        <p>This is my <span style="text-decoration: underline;"><strong><a href="https://weekly.devleader.ca" target="_blank" rel="noopener">FREE newsletter</a></strong></span> that I send out every Saturday morning directly to your inbox! I try to include the following in every issue, and I hope to keep evolving the content format so that it keeps you engaged:</p>
+        <ul>
+            <li>A newsletter-exclusive article focused on general software engineering or a programming example with code</li>
+            <li>Early access to <span style="text-decoration: underline;"><strong><a href="https://www.youtube.com/@@devleader?sub_confirmation=1" target="_blank" rel="noopener">YouTube videos</a></strong></span> before they launch</li>
+            <li>Review of content shared throughout the week</li>
+            <li>Sneak previews of upcoming things I’m working on before they launch</li>
+        </ul>
+        <h2>Did You Say The Newsletter is Free?</h2>
+        <p>That’s right! I do my absolute best to release as much high-quality free educational content as I possibly can. My standard newsletter will always remain free because I want to ensure I can share my experiences directly with you with no barriers.</p>
+        <h2 class="header-with-anchor-widget"><strong>What About The Older Newsletters?</strong></h2>
+        <p>You can find the&nbsp;<span style="text-decoration: underline;"><a href="/newsletter-archive" rel=""><strong>newsletter archive here</strong>!</a></span> Remember, you can view newsletters before they’re archived <span style="text-decoration: underline;"><a href="https://weekly.devleader.ca" target="_blank" rel="noopener"><strong>over on Substack</strong></a></span>!</p>
+        <h2 class="header-with-anchor-widget"><strong>What Other Offerings Are There?</strong></h2>
+        <ul>
+            <li>I have a&nbsp;<span style="text-decoration: underline;"><strong><a href="https://devleader.ca/discord-community-access?utm_source=substack&amp;utm_medium=about_page" rel="">private Discord community</a></strong></span>&nbsp;that you can join! Hang out with other software engineers sharing their own experiences on their own unique journeys. I’ll be there to help answer any questions for you in the community.</li>
+            <li>I offer both&nbsp;<a href="/courses" rel=""><span style="text-decoration: underline;"><strong>free and paid</strong></span> courses</a>!</li>
+        </ul>
+        <h2>Are There Sponsorship Opportunities?</h2>
+        <p>I do have opportunities listed for <span style="text-decoration: underline;"><strong><a href="/newsletter-sponsorship">sponsoring newsletter issues over here</a></strong></span>. Check it out and see if Dev Leader Weekly is a fit for your business!</p>
+    </div>
+</div>
+
+@code {
+
+}
