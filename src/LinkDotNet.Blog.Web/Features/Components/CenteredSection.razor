@@ -1,0 +1,34 @@
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="content-container">
+    <h2 class="header">@Title</h2>
+    <div class="text-content">
+        @ChildContent
+    </div>
+</div>
+
+<style>
+    .content-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .header {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .text-content {
+        text-align: left;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

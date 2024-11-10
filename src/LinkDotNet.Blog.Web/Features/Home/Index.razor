@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @page "/{page:int}"
 @using Markdig
 @using LinkDotNet.Blog.Domain
@@ -23,6 +23,23 @@
 </section>
 
 <section>
+    <div style="text-align: center;">
+        <iframe src="https://weekly.devleader.ca/embed" width="600" height="500" frameborder="0" scrolling="no"></iframe>
+    </div>
+</section>
+
+<CenteredSection Title="Level Up Your Software Engineering">
+    <div>
+        I’m Nick Cosentino, the creator of Dev Leader. I’m a Principal Engineering Manager at Microsoft by day and a software engineering content creator by night! My journey in software engineering and leadership has been fueled by a passion for continuous improvement and a drive to empower teams with trust, transparency, and candor.
+    </div>
+    <br/>
+    <div>
+        Here at Dev Leader, I share insights and experiences from my diverse background, spanning startups, small businesses, and big tech. I’ve been writing code for 20+ years and professionally creating software for 15 years now. I’d love to share my experiences with you!
+    </div>
+</CenteredSection>
+
+<section>
+
     <header>
         <div class="text-center pt-2">
             <h1 class="m-auto align-middle pt-4 pb-3 fw-bold">@(currentPage.IsFirstPage ? "Recent Posts" : "Older Posts")</h1>
