@@ -1,0 +1,37 @@
+@page "/newsletter-archive"
+@using LinkDotNet.Blog.Infrastructure.Persistence
+@using LinkDotNet.Blog.Domain
+@using System.Collections.Immutable
+@using System.Globalization
+@inject NavigationManager NavigationManager
+
+<OgData Title="Newsletter Archive" Description="View all of the Dev Leader Weekly newsletter issues!"></OgData>
+
+<div class="container">
+    <div style="text-align: center;">
+        <iframe src="https://weekly.devleader.ca/embed" width="600" height="500" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <div>
+        <h2>View The Archive on Substack!</h2>
+        <p>View newsletters the externally-hosted archive <span style="text-decoration: underline;"><a href="https://weekly.devleader.ca" target="_blank" rel="noopener"><strong>over on Substack</strong></a></span>!</p>
+    </div>
+</div>
+
+<!-- FIXME: show the hosted archive when you can filter posts properly, Nick! -->
+@code {
+    protected override void OnInitialized()
+    {
+        try
+        {
+            NavigationManager.NavigateTo("https://weekly.devleader.ca");
+        }
+        catch
+        {
+            // https://stackoverflow.com/a/65141047/2704424
+            // Yes, it is completely safe to ignore it. The debugger stops because
+            // it is configured to do so, but in this case the exception is always
+            // handled. You can turn-off breaking on this exception if it's caught
+            // on the debugger settings.
+        }
+    }
+}
