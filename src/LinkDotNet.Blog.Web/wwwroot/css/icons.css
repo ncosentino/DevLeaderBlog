@@ -112,3 +112,18 @@ i {
 .bluesky:before {
 	content: "\e902";
 }
+.reddit:before {
+	content: "\eac6";
+}
+.pinterest:before {
+	content: "\ead1";
+}
+.stackoverflow:before {
+	content: "\ead0";
+}
+.library:before {
+	content: "\e921";
+}
+.letter:before {
+	content: "\ea84";
+}
