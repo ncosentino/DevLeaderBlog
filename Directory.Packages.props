@@ -3,6 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup Label="Code Analyzers">
+    <PackageVersion Include="Blazor-Analytics" Version="3.12.0" />
     <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
     <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167" PrivateAssets="All" IncludeAssets="Runtime;Build;Native;contentFiles;Analyzers" />
     <PackageVersion Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.22.0" />

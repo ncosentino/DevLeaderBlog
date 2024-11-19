@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Blazor.Analytics;
 
 namespace LinkDotNet.Blog.Web;
 
@@ -39,22 +40,21 @@ public class Program
             .AddResponseCompression()
             .AddHealthCheckSetup();
 
-#if !DEBUG
-        builder.Logging.AddApplicationInsights(configureTelemetryConfiguration: (config) =>
-            config.ConnectionString = builder.Configuration.GetConnectionString("APPLICATIONINSIGHTS_CONNECTION_STRING"),
-            configureApplicationInsightsLoggerOptions: (options) =>
-            {
-            }
-        );
-#endif
-
         if (builder.Environment.IsDevelopment())
         {
             builder.Services.UseDummyAuthentication();
         }
         else
         {
+            builder.Logging.AddApplicationInsights(configureTelemetryConfiguration: (config) =>
+                config.ConnectionString = builder.Configuration.GetConnectionString("APPLICATIONINSIGHTS_CONNECTION_STRING"),
+                configureApplicationInsightsLoggerOptions: (options) =>
+                {
+                }
+            );
+
             builder.Services.UseAuthentication();
+            builder.Services.AddGoogleAnalytics("G-F9P4TGM7EZ");
         }
     }
 

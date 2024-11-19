@@ -8,6 +8,7 @@
     <ItemGroup>
          <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
          <PackageReference Include="Azure.Storage.Blobs" />
+         <PackageReference Include="Blazor-Analytics" />
          <PackageReference Include="Blazored.Toast" />
          <PackageReference Include="Blazorise.Bootstrap5" />
          <PackageReference Include="Blazorise.Markdown" />
