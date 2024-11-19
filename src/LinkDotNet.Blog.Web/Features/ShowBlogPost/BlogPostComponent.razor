@@ -32,12 +32,18 @@ CanonicalRelativeUrl="@BlogPostCanonicalUrl">
 
 <div class="d-flex justify-content-center pt-2 blog-outer-box">
     <div class="blog-container">
+
+        <div style="text-align: center">
+            <Blazorise.FigureImage Source=@BlogPost.PreviewImageUrl />
+        </div>
+
         @if (hasPermission == true)
         {
             <div class="blog-inner-content">
                 <header class="text-center">
                     <h1 class="fw-bold">@BlogPost.Title</h1>
                 </header>
+
                 <div class="text-dark-emphasis d-flex flex-wrap gap-2">
                     <div class="me-2">
                         <span class="date"></span>
