@@ -7,6 +7,8 @@ using LinkDotNet.Blog.Web.RegistrationExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace LinkDotNet.Blog.Web;
 
@@ -36,6 +38,15 @@ public class Program
             .AddBlazoriseWithBootstrap()
             .AddResponseCompression()
             .AddHealthCheckSetup();
+
+#if !DEBUG
+        builder.Logging.AddApplicationInsights(configureTelemetryConfiguration: (config) =>
+            config.ConnectionString = builder.Configuration.GetConnectionString("APPLICATIONINSIGHTS_CONNECTION_STRING"),
+            configureApplicationInsightsLoggerOptions: (options) =>
+            {
+            }
+        );
+#endif
 
         if (builder.Environment.IsDevelopment())
         {
