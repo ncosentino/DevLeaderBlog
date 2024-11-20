@@ -1,13 +1,31 @@
 @using LinkDotNet.Blog.Domain
+
+<style>
+    .social-icon-link {
+        width: 64px;
+        height: 64px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+    }
+    .social-icon-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
 <div class="d-flex flex-row justify-content-center h3 gap-4 py-2">
     @foreach (var account in AllSocialAccounts.Where(a => a.HasAccount))
     {
-	    <a id="@account.Id" class="nav-link" target="_blank" href="@account.Url" aria-label="@account.Name" rel="noreferrer">
-		    <i class="@account.Icon"></i>
-	    </a>
+        <a id="@account.Id"
+           class="nav-link d-inline-flex align-items-center justify-content-center social-icon-link"
+           target="_blank"
+           href="@account.Url"
+           aria-label="@account.Name"
+           rel="noreferrer">
+            <i class="@account.Icon"></i>
+        </a>
     }
 </div>
-
 @code {
     private List<SocialAccount> AllSocialAccounts =>
     [
