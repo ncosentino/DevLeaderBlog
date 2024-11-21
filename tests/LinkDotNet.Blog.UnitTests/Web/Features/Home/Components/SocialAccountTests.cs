@@ -53,14 +53,20 @@ public class SocialAccountTests : BunitContext
             }
         }
 
-        private static Social CreateSocial(SocialTestCase activeAccount) => new()
+        private static Social CreateSocial(SocialTestCase activeAccount)
         {
-            LinkedInAccountUrl = activeAccount.Name == "LinkedIn" ? activeAccount.Url : null,
-            GithubAccountUrl = activeAccount.Name == "GitHub" ? activeAccount.Url : null,
-            TwitterAccountUrl = activeAccount.Name == "Twitter" ? activeAccount.Url : null,
-            YoutubeAccountUrl = activeAccount.Name == "YouTube" ? activeAccount.Url : null,
-            BlueSkyHandle = activeAccount.Name == "BlueSky" ? activeAccount.Url : null
-        };
+            var accounts = new List<SocialAccountConfig>
+            {
+                new() { Name = "LinkedIn", Url = activeAccount.Name == "LinkedIn" ? activeAccount.Url : null, SvgPath = "linkedin" },
+                new() { Name = "GitHub", Url = activeAccount.Name == "GitHub" ? activeAccount.Url : null, SvgPath = "github" },
+                new() { Name = "Twitter", Url = activeAccount.Name == "Twitter" ? activeAccount.Url : null, SvgPath = "twitter" },
+                new() { Name = "YouTube", Url = activeAccount.Name == "YouTube" ? activeAccount.Url : null, SvgPath = "youtube" },
+                new() { Name = "BlueSky", Url = activeAccount.Name == "BlueSky" ? activeAccount.Url : null, SvgPath = "bluesky" }
+            }
+            .Where(x => x.Url is not null)
+            .ToArray();
+            return new Social { Accounts = accounts };
+        }
 
         private static Dictionary<string, bool> CreateExpectedResults(
             IEnumerable<SocialTestCase> allCases,

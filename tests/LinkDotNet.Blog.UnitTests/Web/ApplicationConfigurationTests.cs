@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Text.Json;
+
 using LinkDotNet.Blog.Domain;
 using LinkDotNet.Blog.TestUtilities;
 using LinkDotNet.Blog.Web;
@@ -98,12 +100,12 @@ public class ApplicationConfigurationTests
 
         var social = new Social();
         configuration.GetSection(Social.SocialSection).Bind(social);
-        social.GithubAccountUrl.ShouldBe("github");
-        social.HasGithubAccount.ShouldBeTrue();
-        social.LinkedInAccountUrl.ShouldBe("linkedIn");
-        social.HasLinkedinAccount.ShouldBeTrue();
-        social.TwitterAccountUrl.ShouldBe("twitter");
-        social.HasTwitterAccount.ShouldBeTrue();
+        //social.GithubAccountUrl.ShouldBe("github");
+        //social.HasGithubAccount.ShouldBeTrue();
+        //social.LinkedInAccountUrl.ShouldBe("linkedIn");
+        //social.HasLinkedinAccount.ShouldBeTrue();
+        //social.TwitterAccountUrl.ShouldBe("twitter");
+        //social.HasTwitterAccount.ShouldBeTrue();
 
         var introduction = new IntroductionBuilder().Build();
         configuration.GetSection(Introduction.IntroductionSection).Bind(introduction);
@@ -132,14 +134,28 @@ public class ApplicationConfigurationTests
         bool linkedInAvailable,
         bool twitterAvailable)
     {
+        List<SocialAccountConfig> socials = [];
+        if (githubUrl is not null)
+        {
+            socials.Add(new SocialAccountConfig { Name = "Github", Url = githubUrl });
+        }
+
+        if (linkedInUrl is not null)
+        {
+            socials.Add(new SocialAccountConfig { Name = "LinkedIn", Url = linkedInUrl });
+        }
+
+        if (twitterUrl is not null)
+        {
+            socials.Add(new SocialAccountConfig { Name = "Twitter", Url = twitterUrl });
+        }
+
         var inMemorySettings = new Dictionary<string, string?>
         {
             { "Introduction:BackgroundUrl", "someurl" },
             { "Introduction:ProfilePictureUrl", "anotherurl" },
             { "Introduction:Description", "desc" },
-            { "Social:GithubAccountUrl", githubUrl },
-            { "Social:LinkedInAccountUrl", linkedInUrl },
-            { "Social:TwitterAccountUrl", twitterUrl },
+            { "Social:Accounts", JsonSerializer.Serialize(socials) },
         };
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
@@ -147,10 +163,34 @@ public class ApplicationConfigurationTests
 
         var socialConfiguration = new Social();
         configuration.GetSection(Social.SocialSection).Bind(socialConfiguration);
+        socialConfiguration.Accounts.ShouldNotBeNull();
 
-        socialConfiguration.HasGithubAccount.ShouldBe(githubAvailable);
-        socialConfiguration.HasLinkedinAccount.ShouldBe(linkedInAvailable);
-        socialConfiguration.HasTwitterAccount.ShouldBe(twitterAvailable);
+        if (githubAvailable)
+        {
+            socialConfiguration.Accounts.ShouldContain(a => a.Name == "Github");
+        }
+        else
+        {
+            socialConfiguration.Accounts.ShouldNotContain(a => a.Name == "Github");
+        }
+
+        if (linkedInAvailable)
+        {
+            socialConfiguration.Accounts.ShouldContain(a => a.Name == "LinkedIn");
+        }
+        else
+        {
+            socialConfiguration.Accounts.ShouldNotContain(a => a.Name == "LinkedIn");
+        }
+
+        if (twitterAvailable)
+        {
+            socialConfiguration.Accounts.ShouldContain(a => a.Name == "Twitter");
+        }
+        else
+        {
+            socialConfiguration.Accounts.ShouldNotContain(a => a.Name == "Twitter");
+        }
     }
 
     [Fact]

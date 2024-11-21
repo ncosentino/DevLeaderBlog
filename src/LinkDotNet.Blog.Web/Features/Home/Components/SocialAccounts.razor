@@ -2,43 +2,73 @@
 
 <style>
     .social-icon-link {
-        width: 64px;
-        height: 64px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        transition: background-color 0.3s ease;
+        position: relative;
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
     }
-    .social-icon-link:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-    }
+
+        .social-icon-link::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            bottom: -8px;
+            left: -8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icon-link:hover::before {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .social-icon-link:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon-link svg {
+            position: relative;
+            z-index: 1;
+            width: 48px;
+            height: 48px;
+        }
 </style>
 
 <div class="d-flex flex-row justify-content-center h3 gap-4 py-2">
-    @foreach (var account in AllSocialAccounts.Where(a => a.HasAccount))
+    @foreach (var account in AllSocialAccounts)
     {
         <a id="@account.Id"
-           class="nav-link d-inline-flex align-items-center justify-content-center social-icon-link"
+           class="nav-link social-icon-link"
            target="_blank"
            href="@account.Url"
            aria-label="@account.Name"
            rel="noreferrer">
-            <i class="@account.Icon"></i>
+            <svg enable-background="new 0 0 24 24" viewBox="0 0 24 24">
+                <path d="@account.Icon">
+                </path>
+            </svg>
         </a>
     }
 </div>
+
 @code {
-    private List<SocialAccount> AllSocialAccounts =>
-    [
-	    // Icons have to be defined in the icons.css or basic.css as a class
-	    new("linkedin", Social.HasLinkedinAccount, Social.LinkedInAccountUrl, "LinkedIn", "linkedin"),
-	    new("github", Social.HasGithubAccount, Social.GithubAccountUrl, "Github", "github"),
-	    new("twitter", Social.HasTwitterAccount, Social.TwitterAccountUrl, "Twitter", "twitter"),
-	    new("youtube", Social.HasYoutubeAccount, Social.YoutubeAccountUrl, "Youtube", "youtube"),
-	    new("bluesky", Social.HasBlueSkyHandle, $"https://bsky.app/profile/{Social.BlueSkyHandle}", "Bluesky", "bluesky"),
-    ];
+    private IReadOnlyList<SocialAccount> AllSocialAccounts => (Social.Accounts ?? [])
+        .Select(a => new SocialAccount(
+            a.Name?.Replace(" ", "") ?? Guid.NewGuid().ToString("N").ToLowerInvariant(),
+            a.Url,
+            a.Name ?? "",
+            a.SvgPath ?? ""))
+        .ToArray();
 
     [Parameter, EditorRequired]
     public required Social Social { get; set; }
 
-    private record SocialAccount(string Id, bool HasAccount, string? Url, string Name, string Icon);
+    private record SocialAccount(string Id, string? Url, string Name, string Icon)
+    {
+    }
 }
