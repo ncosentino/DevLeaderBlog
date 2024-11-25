@@ -12,20 +12,55 @@
 
 <h3>All posts with Tag <em>@Tag</em></h3>
 
-@for (var i = 0; i < blogPosts.Count; i++)
+@if (!_isLoaded)
 {
-    <ShortBlogPost BlogPost="blogPosts[i]" UseAlternativeStyle="@(i % 2 != 0)"></ShortBlogPost>
+    <Loading/>
 }
+else if (_isErrored)
+{
+    <nav class="alert alert-danger" role="alert">
+        <p>Something went wrong while loading the posts for tag <em>@Tag</em></p>
+    </nav>
+}
+else if (blogPosts.Count == 0)
+{
+    <p>No posts found for tag <em>@Tag</em></p>
+}
+else
+{
+    @for (var i = 0; i < blogPosts.Count; i++)
+    {
+        <ShortBlogPost BlogPost="blogPosts[i]" UseAlternativeStyle="@(i % 2 != 0)"></ShortBlogPost>
+    }
+}
+
 @code {
     [Parameter, EditorRequired]
     public required string Tag { get; set; }
 
+    private bool _isLoaded;
+    private bool _isErrored;
+
     IReadOnlyList<BlogPost> blogPosts = PagedList<BlogPost>.Empty;
     protected override async Task OnParametersSetAsync()
     {
-        Tag = Uri.UnescapeDataString(Tag);
-        blogPosts = await BlogPostRepository.GetAllAsync(
-            b => b.IsPublished && b.Tags.Any(t => t == Tag),
-            b => b.UpdatedDate);
+        _isLoaded = false;
+        _isErrored = false;
+
+        try
+        {
+            Tag = Uri.UnescapeDataString(Tag);
+            blogPosts = await BlogPostRepository.GetAllAsync(
+                b => b.IsPublished && b.Tags.Any(t => t == Tag),
+                b => b.UpdatedDate);
+        }
+        catch
+        {
+            _isErrored = true;
+        }
+        finally
+        {
+            _isLoaded = true;
+        }
     }
 }
