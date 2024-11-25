@@ -13,11 +13,11 @@
 }
 else if (!isLoading && BlogPost is null)
 {
-    <NoBlogPostFound/>
+    <ObjectNotFound></ObjectNotFound>
 }
 else if (BlogPost is not null)
 {
-    <BlogPostComponent BlogPost="@BlogPost" BlogPostCanonicalUrl="@BlogPostCanonicalUrl" />
+    <BlogPostComponent BlogPost="@BlogPost" BlogPostCanonicalUrl="@BlogPostCanonicalUrl" />	
 }
 
 @code {
