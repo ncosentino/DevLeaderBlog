@@ -1,5 +1,5 @@
 @page "/{year:int}/{month:int}/{day:int}/{slug?}"
-@page "/{year:int}/{month:int}/{day:int}/{slug?}/{_}"
+@page "/{year:int}/{month:int}/{day:int}/{slug?}/{_?}"
 @using System.Text
 @using Markdig
 @using LinkDotNet.Blog.Domain
@@ -34,6 +34,9 @@ else if (BlogPost is not null)
 
     [Parameter, EditorRequired]
     public required string Slug { get; set; }
+
+    [Parameter]
+    public required string _ { get; set; }
 
     private bool isLoading;
     private string BlogPostCanonicalUrl => $"{Year}/{Month}/{Day}/{Slug}";
