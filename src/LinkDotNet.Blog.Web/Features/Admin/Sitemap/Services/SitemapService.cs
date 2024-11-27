@@ -1,12 +1,14 @@
-﻿using System;
+using LinkDotNet.Blog.Domain;
+using LinkDotNet.Blog.Infrastructure.Persistence;
+
+using Microsoft.AspNetCore.Components;
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using LinkDotNet.Blog.Domain;
-using LinkDotNet.Blog.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Components;
 
 namespace LinkDotNet.Blog.Web.Features.Admin.Sitemap.Services;
 
@@ -49,7 +51,7 @@ public sealed class SitemapService : ISitemapService
     {
         return blogPosts.Select(b => new SitemapUrl
         {
-            Location = $"{navigationManager.BaseUri}blogPost/{b.Id}",
+            Location = $"{navigationManager.BaseUri}/{b.UpdatedDate.Year}/{b.UpdatedDate.Month}/{b.UpdatedDate.Day}/{b.Slug}",
             LastModified = b.UpdatedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
         }).ToImmutableArray();
     }
@@ -61,7 +63,7 @@ public sealed class SitemapService : ISitemapService
             .Distinct()
             .Select(t => new SitemapUrl
             {
-                Location = $"{navigationManager.BaseUri}searchByTag/{Uri.EscapeDataString(t)}",
+                Location = $"{navigationManager.BaseUri}tags/{Uri.EscapeDataString(t)}",
             });
     }
 }
