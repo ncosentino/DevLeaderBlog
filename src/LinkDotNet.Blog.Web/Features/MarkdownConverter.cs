@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Markdig;
@@ -86,6 +86,8 @@ public static class MarkdownConverter
                         break;
                     case HtmlEntityInline htmlEntity:
                         stringBuilder.Append(htmlEntity.Transcoded);
+                        break;
+                    case HtmlInline:
                         break;
                     default:
                         stringBuilder.Append(current);
