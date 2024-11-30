@@ -111,10 +111,6 @@ code {
 	content: "\e9d5";
 }
 
-.editor-toolbar {
-	background: #696969;
-}
-
 .copy-btn {
 	border-color: whitesmoke !important;
 }
@@ -144,8 +140,12 @@ code {
 }
 
 /* Fixes white background/white icon for markdown editors */
+.editor-toolbar {
+	background: rgb(36, 90, 170) !important;
+}
+
 .editor-toolbar button.active, .editor-toolbar button:hover {
-    background: rgb(206, 206, 206, 0.5) !important;
+    background: rgb(36, 90, 170) !important;
 }
 
 #blazor-error-ui {
