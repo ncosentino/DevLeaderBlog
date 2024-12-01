@@ -6,6 +6,7 @@ using LinkDotNet.Blog.TestUtilities;
 using LinkDotNet.Blog.Web.Controller;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 namespace LinkDotNet.Blog.IntegrationTests.Web.Controller;
@@ -19,6 +20,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
         request.Scheme.Returns("http");
         request.Host.Returns(new HostString("localhost"));
         request.PathBase.Returns(PathString.FromUriComponent("/"));
+        var memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
         var httpContext = Substitute.For<HttpContext>();
         httpContext.Request.Returns(request);
         var controllerContext = new ControllerContext
@@ -48,7 +50,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
             .Build();
         await Repository.StoreAsync(blogPost1);
         await Repository.StoreAsync(blogPost2);
-        var cut = new RssFeedController(introductionConfig, config, Repository)
+        var cut = new RssFeedController(introductionConfig, config, Repository, memoryCache)
         {
             ControllerContext = controllerContext,
         };
@@ -97,6 +99,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
         request.Scheme.Returns("http");
         request.Host.Returns(new HostString("localhost"));
         request.PathBase.Returns(PathString.FromUriComponent("/"));
+        var memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
         var httpContext = Substitute.For<HttpContext>();
         httpContext.Request.Returns(request);
         var controllerContext = new ControllerContext
@@ -126,7 +129,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
             .Build();
         await Repository.StoreAsync(blogPost1);
         await Repository.StoreAsync(blogPost2);
-        var cut = new RssFeedController(introductionConfig, config, Repository)
+        var cut = new RssFeedController(introductionConfig, config, Repository, memoryCache)
         {
             ControllerContext = controllerContext,
         };
@@ -175,6 +178,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
         request.Scheme.Returns("http");
         request.Host.Returns(new HostString("localhost"));
         request.PathBase.Returns(PathString.FromUriComponent("/"));
+        var memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
         var httpContext = Substitute.For<HttpContext>();
         httpContext.Request.Returns(request);
         var controllerContext = new ControllerContext
@@ -204,7 +208,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
             .Build();
         await Repository.StoreAsync(blogPost1);
         await Repository.StoreAsync(blogPost2);
-        var cut = new RssFeedController(introductionConfig, config, Repository)
+        var cut = new RssFeedController(introductionConfig, config, Repository, memoryCache)
         {
             ControllerContext = controllerContext,
         };
@@ -242,6 +246,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
         request.Scheme.Returns("http");
         request.Host.Returns(new HostString("localhost"));
         request.PathBase.Returns(PathString.FromUriComponent("/"));
+        var memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
         var httpContext = Substitute.For<HttpContext>();
         httpContext.Request.Returns(request);
         var controllerContext = new ControllerContext
@@ -272,7 +277,7 @@ public class RssFeedControllerTests : SqlDatabaseTestBase<BlogPost>
             .Build();
         await Repository.StoreAsync(blogPost1);
         await Repository.StoreAsync(blogPost2);
-        var cut = new RssFeedController(introductionConfig, config, Repository)
+        var cut = new RssFeedController(introductionConfig, config, Repository, memoryCache)
         {
             ControllerContext = controllerContext,
         };

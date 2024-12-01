@@ -1,3 +1,12 @@
+using LinkDotNet.Blog.Domain;
+using LinkDotNet.Blog.Infrastructure.Persistence;
+using LinkDotNet.Blog.Web.Features;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,16 +17,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using LinkDotNet.Blog.Domain;
-using LinkDotNet.Blog.Infrastructure.Persistence;
-using LinkDotNet.Blog.Web.Features;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.Extensions.Options;
+
 using InvalidOperationException = System.InvalidOperationException;
 
 namespace LinkDotNet.Blog.Web.Controller;
 
+[Route("rss")]
+[Route("rss.xml")]
+[Route("feed.xml")]
 [Route("feed.rss")]
 [EnableRateLimiting("ip")]
 public sealed class RssFeedController : ControllerBase
@@ -27,11 +34,13 @@ public sealed class RssFeedController : ControllerBase
     private readonly string blogName;
     private readonly int blogPostsPerPage;
     private readonly IRepository<BlogPost> blogPostRepository;
+    private readonly IMemoryCache memoryCache;
 
     public RssFeedController(
         IOptions<Introduction> introductionConfiguration,
         IOptions<ApplicationConfiguration> applicationConfiguration,
-        IRepository<BlogPost> blogPostRepository)
+        IRepository<BlogPost> blogPostRepository,
+        IMemoryCache memoryCache)
     {
         ArgumentNullException.ThrowIfNull(introductionConfiguration);
         ArgumentNullException.ThrowIfNull(applicationConfiguration);
@@ -40,30 +49,39 @@ public sealed class RssFeedController : ControllerBase
         blogName = applicationConfiguration.Value.BlogName;
         blogPostsPerPage = applicationConfiguration.Value.BlogPostsPerPage;
         this.blogPostRepository = blogPostRepository;
+        this.memoryCache = memoryCache;
     }
 
-    [ResponseCache(Duration = 1200)]
     [HttpGet]
-    public async Task<IActionResult> GetRssFeed([FromQuery] bool withContent = false, [FromQuery] int? numberOfBlogPosts = null)
+    public async Task<IActionResult> GetRssFeed(
+        [FromQuery] bool withContent = false,
+        [FromQuery] int? numberOfBlogPosts = null)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-        var introductionDescription = MarkdownConverter.ToPlainString(description);
-        var feed = new SyndicationFeed(blogName, introductionDescription, new Uri(url))
+        var result = await memoryCache.GetOrCreateAsync("rss-feed", async entry =>
         {
-            Items = withContent
-                ? await GetBlogPostsItemsWithContent(url, numberOfBlogPosts)
-                : await GetBlogPostItems(url),
-        };
+            entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(1200));
 
-        using var stream = new MemoryStream();
-        await WriteRssInfoToStreamAsync(stream, feed);
+            var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+            var introductionDescription = MarkdownConverter.ToPlainString(description);
+            var feed = new SyndicationFeed(blogName, introductionDescription, new Uri(url))
+            {
+                Items = withContent
+                    ? await GetBlogPostsItemsWithContent(url, numberOfBlogPosts)
+                    : await GetBlogPostItems(url),
+            };
 
-        return File(stream.ToArray(), "application/rss+xml; charset=utf-8");
+            using var stream = new MemoryStream();
+            await WriteRssInfoToStreamAsync(stream, feed);
+
+            return File(stream.ToArray(), "application/rss+xml; charset=utf-8");
+        });
+
+        return result!;
     }
 
     private static async Task WriteRssInfoToStreamAsync(Stream stream, SyndicationFeed feed)
@@ -78,14 +96,17 @@ public sealed class RssFeedController : ControllerBase
     {
         var settings = new XmlWriterSettings
         {
-            Encoding = Encoding.UTF8, NewLineHandling = NewLineHandling.Entitize, Indent = true, Async = true,
+            Encoding = Encoding.UTF8,
+            NewLineHandling = NewLineHandling.Entitize,
+            Indent = true,
+            Async = true,
         };
         return settings;
     }
 
     private static SyndicationItem CreateSyndicationItemFromBlogPost(string url, BlogPostRssInfo blogPost)
     {
-        var blogPostUrl = url + $"/blogPost/{blogPost.Id}";
+        var blogPostUrl = url + blogPost.RelativePermalink;
 
         var content = MarkdownConverter.ToMarkupString(blogPost.ShortDescription ?? blogPost.Content ??
             throw new InvalidOperationException("Blog post must have either short description or content."));
@@ -117,7 +138,7 @@ public sealed class RssFeedController : ControllerBase
     private async Task<IEnumerable<SyndicationItem>> GetBlogPostItems(string url)
     {
         var blogPosts = await blogPostRepository.GetAllByProjectionAsync(
-            s => new BlogPostRssInfo(s.Id, s.Title, s.ShortDescription, null, s.UpdatedDate, s.PreviewImageUrl, s.Tags),
+            s => new BlogPostRssInfo(s.Id, s.Title, s.ShortDescription, null, s.UpdatedDate, s.PreviewImageUrl, s.Slug, s.Tags),
             f => f.IsPublished,
             orderBy: post => post.UpdatedDate);
         return blogPosts.Select(bp => CreateSyndicationItemFromBlogPost(url, bp));
@@ -128,7 +149,7 @@ public sealed class RssFeedController : ControllerBase
         numberOfBlogPosts ??= blogPostsPerPage;
 
         var blogPosts = await blogPostRepository.GetAllByProjectionAsync(
-            s => new BlogPostRssInfo(s.Id, s.Title, null, s.Content, s.UpdatedDate, s.PreviewImageUrl, s.Tags),
+            s => new BlogPostRssInfo(s.Id, s.Title, null, s.Content, s.UpdatedDate, s.PreviewImageUrl, s.Slug, s.Tags),
             f => f.IsPublished,
             orderBy: post => post.UpdatedDate,
             pageSize: numberOfBlogPosts.Value);
@@ -152,5 +173,9 @@ public sealed class RssFeedController : ControllerBase
         string? Content,
         DateTime UpdatedDate,
         string PreviewImageUrl,
-        IEnumerable<string> Tags);
+        string Slug,
+        IEnumerable<string> Tags)
+    {
+        public string RelativePermalink => $"/{UpdatedDate.Year}/{UpdatedDate.Month:00}/{UpdatedDate.Day:00}/{Slug}";
+    }
 }
