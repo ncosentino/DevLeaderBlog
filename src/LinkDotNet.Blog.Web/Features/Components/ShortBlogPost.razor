@@ -24,7 +24,7 @@
 						<ul>
 							@foreach (var tag in BlogPost.Tags)
 							{
-								<li><a class="goto-tag" href="/searchByTag/@(Uri.EscapeDataString(tag))">@tag</a></li>
+								<li><a class="goto-tag" href="/tags/@(Uri.EscapeDataString(tag))">@tag</a></li>
 							}
 						</ul>
 					</li>
@@ -37,7 +37,7 @@
 			<h2></h2>
 			<p>@MarkdownConverter.ToMarkupString(BlogPost.ShortDescription)</p>
 			<p class="read-more">
-				<a href="/blogPost/@BlogPost.Id/@BlogPost.Slug" aria-label="@BlogPost.Title">Read the whole article</a>
+                <a href="/@BlogPost.UpdatedDate.Year/@($"{BlogPost.UpdatedDate.Month:00}")/@($"{BlogPost.UpdatedDate.Day:00}")/@BlogPost.Slug" aria-label="@BlogPost.Title">Read the whole article</a>
 			</p>
 		</div>
 	</div>

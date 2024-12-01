@@ -51,7 +51,7 @@ public sealed class SitemapService : ISitemapService
     {
         return blogPosts.Select(b => new SitemapUrl
         {
-            Location = $"{navigationManager.BaseUri}/{b.UpdatedDate.Year:00}/{b.UpdatedDate.Month:00}/{b.UpdatedDate.Day}/{b.Slug}",
+            Location = $"{navigationManager.BaseUri}/{b.UpdatedDate.Year}/{b.UpdatedDate.Month:00}/{b.UpdatedDate.Day:00}/{b.Slug}",
             LastModified = b.UpdatedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
         }).ToImmutableArray();
     }

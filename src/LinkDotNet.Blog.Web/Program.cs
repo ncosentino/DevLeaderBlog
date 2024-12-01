@@ -98,7 +98,7 @@ public class Program
         app.MapControllers();
         app.MapBlazorHub();
         app.MapFallbackToPage("/_Host");
-        app.MapFallbackToPage("/searchByTag/{tag}", "/_Host");
+        app.MapFallbackToPage("/tags/{tag}", "/_Host");
         app.MapFallbackToPage("/search/{searchTerm}", "/_Host");
     }
 }

@@ -56,7 +56,7 @@ CanonicalRelativeUrl="@BlogPostCanonicalUrl">
                             <div class="d-flex flex-wrap gap-2">
                                 @foreach (var tag in BlogPost.Tags)
                                 {
-                                    <a class="goto-tag badge bg-primary rounded-pill text-decoration-none" href="/searchByTag/@(Uri.EscapeDataString(tag))">@tag</a>
+                                    <a class="goto-tag badge bg-primary rounded-pill text-decoration-none" href="/tags/@(Uri.EscapeDataString(tag))">@tag</a>
                                 }
                             </div>
                         </div>
