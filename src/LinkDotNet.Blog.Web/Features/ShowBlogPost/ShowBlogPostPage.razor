@@ -17,7 +17,21 @@ else if (!isLoading && BlogPost is null)
 }
 else if (BlogPost is not null)
 {
-    <BlogPostComponent BlogPost="@BlogPost" BlogPostCanonicalUrl="@BlogPostCanonicalUrl" />	
+    if (BlogPost.IsPublished)
+    {
+        <BlogPostComponent BlogPost="@BlogPost" BlogPostCanonicalUrl="@BlogPostCanonicalUrl" />
+    }
+    else
+    {
+        <AuthorizeView Roles="Admin" Context="AdminContext">
+            <Authorized>
+                <BlogPostComponent BlogPost="@BlogPost" BlogPostCanonicalUrl="@BlogPostCanonicalUrl" />
+            </Authorized>
+            <NotAuthorized>
+                <NoBlogPostFound />
+            </NotAuthorized>
+        </AuthorizeView>
+    }
 }
 
 @code {
