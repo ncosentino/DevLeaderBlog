@@ -53,7 +53,7 @@ else if (BlogPost is not null)
     public required string _ { get; set; }
 
     private bool isLoading;
-    private string BlogPostCanonicalUrl => $"{Year}/{Month}/{Day}/{Slug}";
+    private string BlogPostCanonicalUrl => $"{Year}/{Month:00}/{Day:00}/{Slug}";
     private BlogPost? BlogPost { get; set; }
 
     protected override async Task OnParametersSetAsync()
