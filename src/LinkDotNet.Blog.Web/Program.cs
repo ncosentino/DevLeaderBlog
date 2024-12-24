@@ -1,3 +1,5 @@
+using Azure;
+
 using Blazor.Analytics;
 
 using Blazored.Toast;
@@ -7,14 +9,19 @@ using HealthChecks.UI.Client;
 using LinkDotNet.Blog.Web.Analytics;
 using LinkDotNet.Blog.Web.Authentication.Dummy;
 using LinkDotNet.Blog.Web.Authentication.OpenIdConnect;
+using LinkDotNet.Blog.Web.Features.Admin.Sitemap.Services;
 using LinkDotNet.Blog.Web.RegistrationExtensions;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LinkDotNet.Blog.Web;
@@ -100,5 +107,15 @@ public class Program
         app.MapFallbackToPage("/_Host");
         app.MapFallbackToPage("/tags/{tag}", "/_Host");
         app.MapFallbackToPage("/search/{searchTerm}", "/_Host");
+
+        app.MapGet("/sitemap.xml", async (IMemoryCache cache, ISitemapService siteMapService, HttpContext context, CancellationToken ct) => {
+            return await cache.GetOrCreateAsync("sitemap.xml", async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24);
+
+                var sitemap = await siteMapService.CreateSitemapAsync(context.Request.Host.Value ?? throw new InvalidOperationException("No host set on request"));
+                return await siteMapService.CreateSitemapXmlAsync(sitemap, ct);
+            });
+        });
     }
 }
