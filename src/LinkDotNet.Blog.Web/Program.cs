@@ -113,7 +113,17 @@ public class Program
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24);
 
-                var sitemap = await siteMapService.CreateSitemapAsync(context.Request.Host.Value ?? throw new InvalidOperationException("No host set on request"));
+                var host = context.Request.Host.Value ?? throw new InvalidOperationException("No host set on request");
+
+                if (host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+                {
+                    host = host[4..];
+                }
+
+                var domain = host.StartsWith("localhost", StringComparison.OrdinalIgnoreCase) || host.StartsWith("127.0.0.1", StringComparison.Ordinal)
+                    ? $"{context.Request.Scheme}://{host}"
+                    : $"{context.Request.Scheme}://www.{host}";
+                var sitemap = await siteMapService.CreateSitemapAsync(domain);
                 return await siteMapService.CreateSitemapXmlAsync(sitemap, ct);
             });
         });
