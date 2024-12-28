@@ -10,133 +10,147 @@
 <OgData Title="Courses" Description="Check out these courses on C#, dotnet, software engineering, and career advice that I've created!"></OgData>
 
 <div class="container">
-    <div class="entry clr" itemprop="text">
-        <p>I’m a firm believer that the most effective way for us to improve as software engineers is to build software. However, I still publish free articles and videos to help supplement learning. And for that same reason, I’ll be offering courses of different kinds here. If you are using these materials to supplement your efforts in building things, then I think you’re on the right track!</p>
+    <p>I’m a firm believer that the most effective way for us to improve as software engineers is to build software. However, I still publish free articles and videos to help supplement learning. And for that same reason, I’ll be offering courses of different kinds here. If you are using these materials to supplement your efforts in building things, then I think you’re on the right track!</p>
 
-        <Blazorise.Divider/>
+    <Blazorise.Divider />
 
-        <h2 class="wp-block-heading">Dometrain Courses</h2>
-        <p>These are <a href="https://dometrain.com/author/nick-cosentino?ref=nick-cosentino" target="_blank" rel="noopener" title="Nick Cosentino's Courses on Dometrain">software engineering courses and programming courses</a> that are hosted on Dometrain. Dometrain courses are paid for and generally much longer and more in-depth than the other courses I will offer here. Nick Chapsas has created an *awesome* platform for getting some of the most experienced software engineers and software architects together to teach you about all of their experiences.</p>
-        <p>I’m proud to be a Dometrain course author and will happily continue to support the platform!</p>
+    <h2 class="wp-block-heading">Dometrain Courses</h2>
+    <p>These are <a href="https://dometrain.com/author/nick-cosentino?ref=nick-cosentino" target="_blank" rel="noopener" title="Nick Cosentino's Courses on Dometrain">software engineering career courses and programming courses</a> that are hosted on Dometrain. Dometrain courses are paid for and generally much longer and more in-depth than the other courses I will offer here. Nick Chapsas has created an *awesome* platform for getting some of the most experienced software engineers and software architects together to teach you about all of their experiences.</p>
+    <p>I’m proud to be a Dometrain course author and will happily continue to support the platform!</p>
 
-        <Blazorise.Divider DividerType="DividerType.Dotted" />
+    <br />
+    <h3 class="wp-block-heading">Career Courses</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var course in CareerCourses)
+        {
+            <div class="col">
+                <CourseCard Title="@course.Title"
+                            ImageUrl="@course.ImageUrl"
+                            Description="@course.Description"
+                            Link="@course.Link"
+                            IsBundle="@course.IsBundle" />
+            </div>
+        }
+    </div>
 
-        <h3 class="wp-block-heading"><a href="https://dometrain.com/course/career-getting-promoted-as-a-software-engineer/?ref=nick-cosentino" target="_blank" rel="noopener" title="Career: Getting Promoted as a Software Engineer">Getting Promoted as a Software Engineer</a></h3>
-        <div style="text-align: left;">
-            <figure>
-                <a href="https://dometrain.com/course/career-getting-promoted-as-a-software-engineer/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox">
-                    <img title="Career: Getting Promoted as a Software Engineer"
-                         fetchpriority="high"
-                         decoding="async"
-                         width="700"
-                         height="400"
-                         src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/courses%20-%20dometrain%20-%20promoted-software-career.webp"
-                         alt="Career: Getting Promoted as a Software Engineer - Dometrain Course"
-                         sizes="(max-width: 705px) 100vw, 705px">
-                </a>
-            </figure>
-        </div>
-        <p>Directly from the <a href="https://dometrain.com/course/career-getting-promoted-as-a-software-engineer/?ref=nick-cosentino" target="_blank" rel="noopener" title="Career: Getting Promoted as a Software Engineer - Dometrain">Dometrain website</a>:</p>
-        <p>We all want to get promoted in our jobs and scale the career ladder. It can, however, seem like a very hard task, but thankfully, there are techniques and practices you can follow to make sure you get your dream promotion. In this course, Microsoft Principal Software Engineering Manager at Microsoft, Nick Cosentino, and Engineering Manager at Yelp, Ryan Murphy, will teach you everything you need to know to get your well-deserved promotion and ensure that you can navigate the corporate hell that might come with making a case. This course was created by two engineering managers who interviewed hundreds of engineers and helped them get their promotion.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/course/career-getting-promoted-as-a-software-engineer/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS COURSE</a></div>
+    <br />
+    <h3 class="wp-block-heading">C# and DotNet Courses</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var course in CodingCourses)
+        {
+            <div class="col">
+                <CourseCard Title="@course.Title"
+                            ImageUrl="@course.ImageUrl"
+                            Description="@course.Description"
+                            Link="@course.Link"
+                            IsBundle="@course.IsBundle" />
+            </div>
+        }
+    </div>
 
-        <Blazorise.Divider DividerType="DividerType.Dotted" />
+    <Blazorise.Divider />
 
-        <h3 class="wp-block-heading"><a href="https://dometrain.com/course/career-nailing-the-behavioral-interview/?ref=nick-cosentino" target="_blank" rel="noopener" title="Career: Nailing the Behavioral Interview">Nailing the Behavioral Interview</a></h3>
-        <div style="text-align: left;">
-            <figure>
-                <a href="https://dometrain.com/course/career-nailing-the-behavioral-interview/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox">
-                    <img
-                        title="Career: Nailing the Behavioral Interview"
-                        fetchpriority="high"
-                        decoding="async"
-                        width="700"
-                        height="400"
-                        src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/09/courses-dometrain-behavioral-interview.webp"
-                        alt="Career: Nailing the Behavioral Interview - Dometrain Course"
-                        sizes="(max-width: 705px) 100vw, 705px">
-                </a>
-            </figure>
-        </div>
-        <p>Directly from the <a href="https://dometrain.com/course/career-nailing-the-behavioral-interview/?ref=nick-cosentino" target="_blank" rel="noopener" title="Career: Nailing the Behavioral Interview - Dometrain">Dometrain website</a>:</p>
-        <p>When interviewing for your next software engineering role, being a good developer can only take you that far. You might think that during the interview process, the only thing that matters is how good your code is or how good your architecture answers are, but the truth is, most developers fail to get their next job because of the behavioural part of the software engineering interview. The good news is that you can prepare for the behavioral interview and ace it every single time. In this course, Nick Cosentino, a Principal Software Engineering Manager at Microsoft and Ryan Murphy, a Software Engineering Manager at Yelp, will use the knowledge that they gathered throughout the years during hundreds of interviews they conducted to make sure you are ready to pass your next interview.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/course/career-nailing-the-behavioral-interview/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS COURSE</a></div>
+    <h2 class="wp-block-heading">Free Courses</h2>
+    <p>These are software engineering courses and programming courses that are freely available to all! No membership. No cost. No strings attached.</p>
 
-        <Blazorise.Divider  DividerType="DividerType.Dotted"/>
-
-        <h3 class="wp-block-heading" ><a href="https://dometrain.com/course/getting-started-csharp?ref=nick-cosentino" target="_blank" rel="noopener" title="Getting Started: C# - Dometrain">Getting Started: C#</a></h3>
-        <div style="text-align: left;">
-            <figure><a href="https://dometrain.com/course/getting-started-csharp?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox"><img title="Getting Started: C# - Dometrain Course - Dev Leader" fetchpriority="high" decoding="async" width="700" height="400" src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/02/courses-dometrain-C-getting-started-wide.webp" alt="Getting Started: C# - Dometrain Course" class="wp-image-6015" srcset="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/02/courses-dometrain-C-getting-started-wide.webp 705w, https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/02/courses-dometrain-C-getting-started-wide-300x169.webp 300w" sizes="(max-width: 705px) 100vw, 705px"></a></figure>
-        </div>
-        <p>Directly from the <a href="https://dometrain.com/course/getting-started-csharp?ref=nick-cosentino" target="_blank" rel="noopener" title="Getting Started: C# - Dometrain">Dometrain website</a>:</p>
-        <p>Whether you have no programming experience or already know a different programming language and want to learn C#, this course is for you. In this course, Principal Engineering Manager Nick Cosentino will teach you everything you need to know to start with programming and C#. C# is one of the most popular programming languages, with millions of lines of code powering some of the most used websites, services and tools. From Office to Azure, our lives wouldn’t be the same without C#. This is your chance to build your programming knowledge on the solid foundation powered by Microsoft themselves.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/course/getting-started-csharp?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS COURSE</a></div>
-
-        <Blazorise.Divider DividerType="DividerType.Dotted" />
-
-        <h3 class="wp-block-heading" ><a href="https://dometrain.com/course/deep-dive-csharp?ref=nick-cosentino" target="_blank" rel="noopener" title="Deep Dive: C# - Dometrain">Deep Dive: C#</a></h3>
-        <div style="text-align: left;">
-            <figure><a href="https://dometrain.com/course/deep-dive-csharp?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox"><img title="Deep Dive: C# - Dometrain Course - Dev Leader" decoding="async" width="705" height="397" src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/03/courses-dometrain-C-deep-dive-wide.jpg" alt="Deep Dive: C# - Dometrain Course" class="wp-image-6677" srcset="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/03/courses-dometrain-C-deep-dive-wide.jpg 705w, https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/03/courses-dometrain-C-deep-dive-wide-300x169.jpg 300w" sizes="(max-width: 705px) 100vw, 705px"></a></figure>
-        </div>
-        <p>Directly from the <a href="https://dometrain.com/course/deep-dive-csharp?ref=nick-cosentino" target="_blank" rel="noopener" title="Deep Dive: C# - Dometrain">Dometrain website</a>:</p>
-        <p>Picking up where he left off on the Getting Started with C# course, Microsoft Principal Software Engineering Manager Nick Cosentino will dive deeper into C#’s feature set and explain more advanced features and patterns. This course covers features such as object-oriented programming with C#, with sections on inheritance and composition, low-level streams, advanced methods and functions like callbacks and delegates, and explaining multithreading and asynchronous programming. If you understand the basics of C# and want to gain even more in-depth knowledge of the language, then this course is for you.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/course/deep-dive-csharp?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS COURSE</a></div>
-
-        <Blazorise.Divider DividerType="DividerType.Dotted" />
-
-        <h3 class="wp-block-heading" ><a href="https://dometrain.com/bundle/from-zero-to-hero-csharp/?ref=nick-cosentino" target="_blank" rel="noopener" title="From Zero to Hero: C# - Dometrain Course Bundle">From Zero to Hero: C# Course Bundle</a></h3>
-        <div style="text-align: left;">
-            <figure><a href="https://dometrain.com/bundle/from-zero-to-hero-csharp/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox"><img title="C# From Zero to Hero - Dometrain Course - Dev Leader" loading="lazy" decoding="async" width="700" height="400" src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/04/courses-dometrain-C-bundle.webp" alt="C# From Zero to Hero - Dometrain Course" class="wp-image-6879" srcset="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/04/courses-dometrain-C-bundle.webp 705w, https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/04/courses-dometrain-C-bundle-300x169.webp 300w" sizes="(max-width: 705px) 100vw, 705px"></a></figure>
-        </div>
-        <p>All the courses you need to learn modern C#! This bundle contains&nbsp;the previous <strong>2</strong>&nbsp;courses at a&nbsp;<strong>20%</strong>&nbsp;discount!</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/bundle/from-zero-to-hero-csharp/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS BUNDLE</a></div>
-
-        <Blazorise.Divider DividerType="DividerType.Dotted" />
-
-        <h3 class="wp-block-heading"><a href="https://dometrain.com/course/from-zero-to-hero-reflection-in-dotnet/?ref=nick-cosentino" target="_blank" rel="noopener" title="From Zero to Hero: Reflection in .NET">From Zero to Hero: Reflection in .NET</a></h3>
-        <div style="text-align: left;">
-            <figure>
-                <a href="https://dometrain.com/course/from-zero-to-hero-reflection-in-dotnet/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox">
-                    <img title="From Zero to Hero: Reflection in .NET"
-                         fetchpriority="high"
-                         decoding="async"
-                         width="700"
-                         height="400"
-                         src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/08/courses-dometrain-reflection.webp"
-                         alt="From Zero to Hero: Reflection in .NET - Dometrain Course"
-                         sizes="(max-width: 705px) 100vw, 705px">
-                </a>
-            </figure>
-        </div>
-        <p>Directly from the <a href="https://dometrain.com/course/from-zero-to-hero-reflection-in-dotnet/?ref=nick-cosentino" target="_blank" rel="noopener" title="From Zero to Hero: Reflection in .NET - Dometrain">Dometrain website</a>:</p>
-        <p>Reflection makes programming feel like magic, even more than it already does. It allows developers to gain access to programming capabilities, that compile time safety might not allow. Reflection is used everywhere, and it is the glue that brings some of the most advanced features in .NET together to enable us to build APIs, web applications, mobile apps, desktop apps, and so much more. Knowing how to use reflection is one thing, but very few developers fully understand it and use such a powerful tool responsibly. In this course, Microsoft Principal Software Engineering Manager Nick Consentino will teach you how to use reflection in your codebases correctly to build incredible software.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/course/from-zero-to-hero-reflection-in-dotnet/?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS COURSE</a></div>
-
-        <Blazorise.Divider DividerType="DividerType.Dotted" />
-
-        <h3 class="wp-block-heading" ><a href="https://dometrain.com/course/from-zero-to-hero-refactoring-for-csharp-developers?ref=nick-cosentino" target="_blank" rel="noopener" title="From Zero to Hero: Refactoring for C# Developers - Dometrain">From Zero to Hero: Refactoring for C# Developers</a></h3>
-        <div style="text-align: left;">
-            <figure><a href="https://dometrain.com/course/from-zero-to-hero-refactoring-for-csharp-developers?ref=nick-cosentino" target="_blank" rel="noreferrer noopener" class="no-lightbox"><img title="Courses - Dometrain - Refactoring for csharp devs - wide - Dev Leader" loading="lazy" decoding="async" width="700" height="400" src="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2023/11/courses-dometrain-refactoring-for-csharp-devs-wide.webp" alt="Courses - Dometrain - Refactoring for csharp devs - wide" class="wp-image-4467" srcset="https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2023/11/courses-dometrain-refactoring-for-csharp-devs-wide.webp 800w, https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2023/11/courses-dometrain-refactoring-for-csharp-devs-wide-300x169.webp 300w, https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2023/11/courses-dometrain-refactoring-for-csharp-devs-wide-768x432.webp 768w" sizes="(max-width: 800px) 100vw, 800px"></a></figure>
-        </div>
-        <p>Directly from the <a href="https://dometrain.com/course/from-zero-to-hero-refactoring-for-csharp-developers?ref=nick-cosentino" target="_blank" rel="noopener" title="From Zero to Hero: Refactoring for C# Developers - Dometrain">Dometrain website</a>:</p>
-        <p>Are you a C# <a href="https://www.devleader.ca/2023/11/28/what-does-refactoring-code-mean-what-new-developers-need-to-know/" title="What Does Refactoring Code Mean? What New Developers Need To Know">developer keen on enhancing code</a> quality and maintainability? If yes, this “From Zero to Hero” course called “Refactoring for C# Developers” is tailor-made for you! This course will equip you with practical skills and the latest practices to <a href="https://www.devleader.ca/2023/11/14/top-10-refactoring-techniques-you-need-to-transform-your-codebase/" title="What Does Refactoring Code Mean? What New Developers Need To Know">refactor any C# codebase</a>. Starting with an overview of refactoring, its importance, and when it’s needed, the course delves into various modern and clean refactoring techniques.</p>
-        <p>The best part? The course uses real-world examples to demonstrate how to transform a codebase to make it more efficient, readable, and extendable. With a focus on hands-on learning, guided examples are provided to demonstrate the refactoring process. But that’s not all! The course also covers the implications of refactoring on team collaboration and project scalability. By the end of this course, you’ll have a solid grasp of refactoring practices, which you can apply directly to your C# development projects.</p>
-        <p>This course is delivered by Nick Cosentino, a Principal Software Engineering Manager at Microsoft, and is based on years of hands-on experience in the field.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://dometrain.com/course/from-zero-to-hero-refactoring-for-csharp-developers?ref=nick-cosentino" target="_blank" rel="noreferrer noopener">GET THIS COURSE</a></div>
-
-
-        <Blazorise.Divider />
-
-        <h2 class="wp-block-heading" >Free Courses</h2>
-        <p>These are software engineering courses and programming courses that are freely available to all! No membership. No cost. No strings attached.</p>
-
-        <h3 class="wp-block-heading" ><a href="https://www.youtube.com/playlist?list=PLzATctVhnsggb3lj53T8fJSK6LJQFUyKS" target="_blank" rel="noopener" title="Introduction To Software Development - FREE Course">Introduction To Software Development</a></h3>
-        <p>Are you someone who has thought about getting into software development but is not sure where to start? Have you convinced yourself that you’re “not good enough” or “not smart enough” to be a developer? Maybe that software development is just “too hard”? This absolutely free mini-course is PERFECT for you then.</p>
-        <p>These short videos will provide you with some intro topics to software development and explain to you that software development is primarily problem-solving and communication. You don’t need to be a math whiz or a genius, just someone who enjoys solving problems and working with people on said problems.</p>
-        <div style="text-align: left; font-size: x-large"><a href="https://www.youtube.com/playlist?list=PLzATctVhnsggb3lj53T8fJSK6LJQFUyKS" target="_blank" rel="noopener" title="Introduction To Software Development - FREE Course">CHECK IT OUT</a>!</div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var course in FreeCourses)
+        {
+            <div class="col">
+                <CourseCard
+                    Title="@course.Title"
+                    ImageUrl="@course.ImageUrl"
+                    Description="@course.Description"
+                    Link="@course.Link"
+                    IsBundle="@course.IsBundle" />
+            </div>
+        }
     </div>
 </div>
 
 @code {
+    private List<CourseInfo> CareerCourses { get; } = new List<CourseInfo>()
+    {
+        new CourseInfo
+        {
+            Title = "Getting Promoted as a Software Engineer",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/courses%20-%20dometrain%20-%20promoted-software-career.webp",
+            Description = "Learn techniques and practices to get your dream promotion in software engineering.",
+            Link = "https://dometrain.com/course/career-getting-promoted-as-a-software-engineer/?ref=nick-cosentino",
+        },
+        new CourseInfo
+        {
+            Title = "Nailing the Behavioral Interview",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/09/courses-dometrain-behavioral-interview.webp",
+            Description = "Prepare for and ace the behavioral part of your next software engineering interview.",
+            Link = "https://dometrain.com/course/career-nailing-the-behavioral-interview/?ref=nick-cosentino"
+        },
+        new CourseInfo
+        {
+            Title = "Soft Skills for Software Engineers",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/courses%20-%20dometrain%20-%20soft%20skills.webp",
+            Description = "Learn all the essential soft skills required for software engineers.",
+            Link = "https://dometrain.com/course/career-soft-skills-for-software-engineers/?ref=nick-cosentino"
+        },
+    };
 
+    private List<CourseInfo> CodingCourses { get; } = new List<CourseInfo>()
+    {
+        new CourseInfo
+        {
+            Title = "From Zero to Hero: C# Course Bundle",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/04/courses-dometrain-C-bundle.webp",
+            Description = "All the courses you need to learn modern C#! This bundle contains the 'Getting Started' and 'Deep Dive' courses at a 20% discount!",
+            Link = "https://dometrain.com/bundle/from-zero-to-hero-csharp/?ref=nick-cosentino",
+            IsBundle = true
+        },
+        new CourseInfo
+        {
+            Title = "Getting Started: C#",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/02/courses-dometrain-C-getting-started-wide.webp",
+            Description = "Learn everything you need to know to start programming with C#.",
+            Link = "https://dometrain.com/course/getting-started-csharp?ref=nick-cosentino"
+        },
+        new CourseInfo
+        {
+            Title = "Deep Dive: C#",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/03/courses-dometrain-C-deep-dive-wide.jpg",
+            Description = "Dive deeper into C#'s feature set and learn more advanced features and patterns.",
+            Link = "https://dometrain.com/course/deep-dive-csharp?ref=nick-cosentino"
+        },
+        new CourseInfo
+        {
+            Title = "From Zero to Hero: Reflection in .NET",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2024/08/courses-dometrain-reflection.webp",
+            Description = "Learn how to use reflection in your codebases correctly to build incredible software.",
+            Link = "https://dometrain.com/course/from-zero-to-hero-reflection-in-dotnet/?ref=nick-cosentino"
+        },
+        new CourseInfo
+        {
+            Title = "From Zero to Hero: Refactoring for C# Developers",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/2023/11/courses-dometrain-refactoring-for-csharp-devs-wide.webp",
+            Description = "Learn how to refactor any C# codebase to make it more efficient, readable, and extendable.",
+            Link = "https://dometrain.com/course/from-zero-to-hero-refactoring-for-csharp-developers?ref=nick-cosentino"
+        },
+    };
+
+    private List<CourseInfo> FreeCourses { get; } = new List<CourseInfo>()
+    {
+        new CourseInfo
+        {
+            Title = "Introduction To Software Development",
+            ImageUrl = "https://devleader-d2f9ggbjfpdqcka7.z01.azurefd.net/media/courses%20-%20free%20-%20introduction%20to%20software%20development.webp",
+            Description = "This free mini-course is PERFECT for those considering a start in software development and learning about what it is.",
+            Link = "https://www.youtube.com/playlist?list=PLzATctVhnsggb3lj53T8fJSK6LJQFUyKS"
+        },
+    };
+
+    public class CourseInfo
+    {
+        public string? Title { get; init; }
+        public string? ImageUrl { get; init; }
+        public string? Description { get; init; }
+        public string? Link { get; init; }
+        public bool IsBundle { get; init; }
+    }
 }

@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="card h-100">
+    <div class="card-header">
+        <h3 class="card-title fs-4"><a href="@Link" target="_blank">@Title</a></h3>
+    </div>
+    <div class="card-body d-flex flex-column">
+        <div class="position-relative mb-3" style="height: 200px;">
+            <img src="@ImageUrl" alt="@Title" class="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        </div>
+        <p class="card-text flex-grow-1">@Description</p>
+    </div>
+    <div class="card-footer">
+        <a href="@Link" target="_blank" class="btn btn-primary w-100">Get This @(@IsBundle == true ? "Bundle" : "Course")!</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string? Link { get; set; }
+
+    [Parameter]
+    public bool? IsBundle { get; set; }
+}
