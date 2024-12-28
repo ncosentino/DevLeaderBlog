@@ -21,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -109,7 +110,7 @@ public class Program
         app.MapFallbackToPage("/search/{searchTerm}", "/_Host");
 
         app.MapGet("/sitemap.xml", async (IMemoryCache cache, ISitemapService siteMapService, HttpContext context, CancellationToken ct) => {
-            return await cache.GetOrCreateAsync("sitemap.xml", async entry =>
+            var sitemap = await cache.GetOrCreateAsync("sitemap.xml", async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24);
 
@@ -124,8 +125,10 @@ public class Program
                     ? $"{context.Request.Scheme}://{host}"
                     : $"{context.Request.Scheme}://www.{host}";
                 var sitemap = await siteMapService.CreateSitemapAsync(domain);
-                return await siteMapService.CreateSitemapXmlAsync(sitemap, ct);
+                return sitemap;
             });
+
+            return Results.Extensions.Xml(sitemap);
         });
     }
 }

@@ -36,7 +36,8 @@
 		<PackageVersion Include="Stripe.net" Version="47.1.0" />
     <PackageVersion Include="System.ServiceModel.Syndication" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.22.0" />
-  </ItemGroup>
+		<PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
+	</ItemGroup>
   <ItemGroup Label="Tests">
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
