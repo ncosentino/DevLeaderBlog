@@ -1,4 +1,4 @@
-﻿@page "/search/{searchTerm}"
+@page "/search/{searchTerm}"
 @using LinkDotNet.Blog.Domain
 @using LinkDotNet.Blog.Infrastructure
 @using LinkDotNet.Blog.Infrastructure.Persistence
@@ -21,8 +21,14 @@
     protected override async Task OnParametersSetAsync()
     {
         var term = Uri.UnescapeDataString(SearchTerm);
-        blogPosts = await BlogPostRepository.GetAllAsync(t => t.IsPublished && (t.Title.Contains(term)
-                                                                                || t.Tags.Any(tag => tag == term)),
-            b => b.UpdatedDate);
+        blogPosts = (await BlogPostRepository
+            .GetAllAsync(t => t.IsPublished
+                // FIXME: MySQL + EF Core is busted with Tags.Any()
+                /* && (t.Title.Contains(term) || t.Tags.Any(tag => tag == term)) */,
+                b => b.UpdatedDate))
+            .Where(t =>
+                t.Title.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                t.Tags.Any(tag => tag.Contains(term, StringComparison.OrdinalIgnoreCase)))
+            .ToArray();
     }
 }
