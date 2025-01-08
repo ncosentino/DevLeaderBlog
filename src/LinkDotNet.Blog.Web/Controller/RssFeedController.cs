@@ -15,6 +15,7 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -120,13 +121,6 @@ public sealed class RssFeedController : ControllerBase
             ? new Guid(idAsInt, 0, 0, new byte[8]).ToString("N")
             : blogPost.Id;
 
-        // <image> tag with a URL as the body does not seem to be
-        // standard. instead, we can use media:content for this:
-        // https://www.rssboard.org/media-rss#media-content
-        var @namespace = XNamespace.Get(@"http://search.yahoo.com/mrss/");
-        var imageNode = new XElement(@namespace + "content");
-        imageNode.SetAttributeValue("url", blogPost.PreviewImageUrl);
-
         var item = new SyndicationItem(
             blogPost.Title,
             default(SyndicationContent),
@@ -139,9 +133,19 @@ public sealed class RssFeedController : ControllerBase
             ElementExtensions =
             {
                 CreateCDataElement(content.Value),
-                imageNode
             },
         };
+
+        if (blogPost.PreviewImageUrl is not null)
+        {
+            // <image> tag with a URL as the body does not seem to be
+            // standard. instead, we can use media:content for this:
+            // https://www.rssboard.org/media-rss#media-content
+            var @namespace = XNamespace.Get(@"http://search.yahoo.com/mrss/");
+            var imageNode = new XElement(@namespace + "content");
+            imageNode.SetAttributeValue("url", blogPost.PreviewImageUrl.Replace(" ", "%20", StringComparison.Ordinal));
+            item.ElementExtensions.Add(imageNode);
+        }
 
         AddCategories(item.Categories, blogPost);
         return item;
