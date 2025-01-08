@@ -79,6 +79,15 @@ public sealed class RssFeedController : ControllerBase
                 new XmlQualifiedName("media", XNamespace.Xmlns.ToString()),
                 "http://search.yahoo.com/mrss/");
 
+            feed.AttributeExtensions.Add(
+                new XmlQualifiedName("atom", XNamespace.Xmlns.ToString()),
+                "http://www.w3.org/2005/Atom");
+            XElement atomLinkElement = new(XNamespace.Get(@"http://www.w3.org/2005/Atom") + "link");
+            atomLinkElement.SetAttributeValue("href", $"{url.TrimEnd('/')}/feed");
+            atomLinkElement.SetAttributeValue("rel", "self");
+            atomLinkElement.SetAttributeValue("type", "application/rss+xml");
+            feed.ElementExtensions.Add(atomLinkElement);
+
             using var stream = new MemoryStream();
             await WriteRssInfoToStreamAsync(stream, feed);
 
