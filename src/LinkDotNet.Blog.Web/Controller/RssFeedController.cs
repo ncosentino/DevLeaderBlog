@@ -74,6 +74,9 @@ public sealed class RssFeedController : ControllerBase
                     ? await GetBlogPostsItemsWithContent(url, numberOfBlogPosts)
                     : await GetBlogPostItems(url),
             };
+            feed.AttributeExtensions.Add(
+                new XmlQualifiedName("media", XNamespace.Xmlns.ToString()),
+                "http://search.yahoo.com/mrss/");
 
             using var stream = new MemoryStream();
             await WriteRssInfoToStreamAsync(stream, feed);
@@ -116,6 +119,14 @@ public sealed class RssFeedController : ControllerBase
         var postId = int.TryParse(blogPost.Id, out var idAsInt)
             ? new Guid(idAsInt, 0, 0, new byte[8]).ToString("N")
             : blogPost.Id;
+
+        // <image> tag with a URL as the body does not seem to be
+        // standard. instead, we can use media:content for this:
+        // https://www.rssboard.org/media-rss#media-content
+        var @namespace = XNamespace.Get(@"http://search.yahoo.com/mrss/");
+        var imageNode = new XElement(@namespace + "content");
+        imageNode.SetAttributeValue("url", blogPost.PreviewImageUrl);
+
         var item = new SyndicationItem(
             blogPost.Title,
             default(SyndicationContent),
@@ -125,7 +136,11 @@ public sealed class RssFeedController : ControllerBase
         {
             PublishDate = blogPost.UpdatedDate,
             LastUpdatedTime = blogPost.UpdatedDate,
-            ElementExtensions = { CreateCDataElement(content.Value), new XElement("image", blogPost.PreviewImageUrl), },
+            ElementExtensions =
+            {
+                CreateCDataElement(content.Value),
+                imageNode
+            },
         };
 
         AddCategories(item.Categories, blogPost);
