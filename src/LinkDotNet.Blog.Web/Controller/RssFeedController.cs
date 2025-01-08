@@ -111,11 +111,16 @@ public sealed class RssFeedController : ControllerBase
         var content = MarkdownConverter.ToMarkupString(blogPost.ShortDescription ?? blogPost.Content ??
             throw new InvalidOperationException("Blog post must have either short description or content."));
 
+        // Legacy blog posts from DevLeader are numeric, but RSS feed
+        // validators would like to see guids for ensuring uniqueness.
+        var postId = int.TryParse(blogPost.Id, out var idAsInt)
+            ? new Guid(idAsInt, 0, 0, new byte[8]).ToString("N")
+            : blogPost.Id;
         var item = new SyndicationItem(
             blogPost.Title,
             default(SyndicationContent),
             new Uri(blogPostUrl),
-            blogPost.Id,
+            postId,
             blogPost.UpdatedDate)
         {
             PublishDate = blogPost.UpdatedDate,
