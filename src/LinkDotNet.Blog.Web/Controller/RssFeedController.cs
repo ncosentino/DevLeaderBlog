@@ -15,7 +15,6 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -91,7 +90,7 @@ public sealed class RssFeedController : ControllerBase
             using var stream = new MemoryStream();
             await WriteRssInfoToStreamAsync(stream, feed);
 
-            return File(stream.ToArray(), "application/rss+xml; charset=utf-8");
+            return File(stream.ToArray(), "application/xml; charset=utf-8");
         });
 
         return result!;
