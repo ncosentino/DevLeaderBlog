@@ -24,6 +24,7 @@ namespace LinkDotNet.Blog.Web.Controller;
 
 [Route("rss")]
 [Route("rss.xml")]
+[Route("feed")]
 [Route("feed.xml")]
 [Route("feed.rss")]
 [EnableRateLimiting("ip")]
@@ -77,6 +78,10 @@ public sealed class RssFeedController : ControllerBase
             feed.AttributeExtensions.Add(
                 new XmlQualifiedName("media", XNamespace.Xmlns.ToString()),
                 "http://search.yahoo.com/mrss/");
+
+            feed.AttributeExtensions.Add(
+                new XmlQualifiedName("content", XNamespace.Xmlns.ToString()),
+                "http://purl.org/rss/1.0/modules/content/");
 
             feed.AttributeExtensions.Add(
                 new XmlQualifiedName("atom", XNamespace.Xmlns.ToString()),
@@ -143,6 +148,13 @@ public sealed class RssFeedController : ControllerBase
                 CreateCDataElement(content.Value),
             },
         };
+
+        if (content.Value is not null)
+        {
+            item.ElementExtensions.Add(new XElement(
+                XNamespace.Get(@"http://purl.org/rss/1.0/modules/content/") + "encoded",
+                new XCData(content.Value)));
+        }
 
         if (blogPost.PreviewImageUrl is not null)
         {
