@@ -34,7 +34,9 @@ CanonicalRelativeUrl="@BlogPostCanonicalUrl">
     <div class="blog-container">
 
         <div style="text-align: center">
-            <Blazorise.FigureImage Source=@BlogPost.PreviewImageUrl />
+            <Blazorise.FigureImage
+                Source="@BlogPost.PreviewImageUrl"
+                Style="max-width: 600px; max-height: 400px; object-fit: contain;" />
         </div>
 
         @if (hasPermission == true)
