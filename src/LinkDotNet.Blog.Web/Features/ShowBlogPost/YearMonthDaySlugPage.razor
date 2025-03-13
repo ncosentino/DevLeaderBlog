@@ -75,18 +75,27 @@ else if (BlogPost is not null)
         {
             BlogPost = matchingPosts[0];
         }
-        else if (!string.IsNullOrWhiteSpace(Slug))
-        {
-            BlogPost = matchingPosts.FirstOrDefault(bp => string.Equals(
-                bp.Slug,
-                Slug,
-                StringComparison.OrdinalIgnoreCase));
-        }
         else
         {
-            BlogPost = null;
+            if (!string.IsNullOrWhiteSpace(Slug))
+            {
+                BlogPost = matchingPosts.FirstOrDefault(bp => string.Equals(
+                    bp.Slug,
+                    Slug,
+                    StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (BlogPost is null)
+            {
+                var matchingPublishedPosts = matchingPosts
+                    .Where(bp => bp.IsPublished)
+                    .ToArray();
+                BlogPost = matchingPublishedPosts.Length == 1
+                    ? matchingPublishedPosts[0]
+                    : null;
+            }
         }
-        
+
 	    isLoading = false;
     }
 }
