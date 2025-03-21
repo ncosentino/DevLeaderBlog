@@ -87,6 +87,17 @@ else if (BlogPost is not null)
 
             if (BlogPost is null)
             {
+                var trimmedSlug = Slug.Replace("-", "");
+                var matchingPublishedPosts = matchingPosts
+                    .Where(bp => string.Equals(bp.Slug.Replace("-", ""), trimmedSlug, StringComparison.OrdinalIgnoreCase))
+                    .ToArray();
+                BlogPost = matchingPublishedPosts.Length == 1
+                    ? matchingPublishedPosts[0]
+                    : null;
+            }
+
+            if (BlogPost is null)
+            {
                 var matchingPublishedPosts = matchingPosts
                     .Where(bp => bp.IsPublished)
                     .ToArray();
