@@ -1,0 +1,239 @@
+/* Center content before pricing tables */
+.content-wrapper {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.content-wrapper {
+		padding: 0 15px;
+	}
+}
+
+/* Pricing table container styles */
+.pricing-tables-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	max-width: 1200px;
+	margin: 0 auto;
+	gap: 20px;
+	padding: 0 15px;
+}
+
+/* Individual pricing table styles */
+.elementor-element.elementor-widget-price-table {
+	flex: 1;
+	min-width: 300px;
+	max-width: 350px;
+	margin-bottom: 30px;
+	display: flex;
+	position: relative;
+}
+
+	.elementor-element.elementor-widget-price-table .elementor-widget-container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+.elementor-price-table {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+	.elementor-price-table .elementor-price-table__features-list {
+		flex: 1;
+	}
+
+/* Pricing table styling */
+.elementor-widget-price-table .elementor-widget-container {
+	overflow: hidden;
+	background-color: #222; /* Dark background */
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+	.elementor-widget-price-table .elementor-widget-container:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+	}
+
+.elementor-price-table .elementor-price-table__header {
+	background: #333; /* Darker header */
+	padding: 20px 0;
+	text-align: center; /* Center the header text */
+}
+
+.elementor-price-table .elementor-price-table__heading {
+	margin: 0;
+	padding: 0;
+	line-height: 1.2;
+	font-size: 24px;
+	font-weight: 600;
+	color: #fff;
+	text-align: center; /* Center the heading text */
+}
+
+.elementor-price-table .elementor-price-table__price {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	flex-direction: row;
+	color: #ffffff; /* White text for price */
+	font-weight: 800;
+	font-size: 65px;
+	padding: 40px 0;
+}
+
+.elementor-price-table .elementor-price-table__features-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0 15px;
+	line-height: 1;
+	color: #ffffff; /* White text for features */
+}
+
+	.elementor-price-table .elementor-price-table__features-list li {
+		font-size: 14px;
+		line-height: 1.5;
+		margin: 0;
+		padding: 12px 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+		.elementor-price-table .elementor-price-table__features-list li:last-child {
+			border-bottom: none;
+		}
+
+	.elementor-price-table .elementor-price-table__features-list svg {
+		margin-inline-end: 10px;
+		fill: #4CAF50; /* Green icons */
+		height: 1.3em;
+		width: 1.3em;
+	}
+
+.elementor-price-table .elementor-price-table__footer {
+	padding: 30px 0;
+	text-align: center; /* Center the footer content */
+}
+
+.elementor-price-table .elementor-price-table__button {
+	background-color: #4CAF50; /* Green button */
+	color: white;
+	font-weight: bold;
+	padding: 12px 24px;
+	border-radius: 4px;
+	transition: background-color 0.3s ease;
+	display: inline-block;
+	text-decoration: none;
+	text-align: center; /* Center the button text */
+	margin: 0 auto; /* Center the button */
+}
+
+	.elementor-price-table .elementor-price-table__button:hover {
+		background-color: #45a049; /* Darker green on hover */
+	}
+
+.elementor-price-table .elementor-price-table__additional_info {
+	margin: 15px 0 0;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #dddddd; /* Light grey for additional info */
+	text-align: center; /* Center the additional info text */
+}
+
+/* Best value ribbon */
+.elementor-price-table__ribbon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	transform: rotate(45deg) translate(35%, -50%);
+	width: 150px;
+	overflow: hidden;
+	height: 150px;
+	z-index: 1; /* Ensure ribbon appears above the pricing table */
+}
+
+.elementor-price-table__ribbon-inner {
+	text-align: center;
+	left: 0;
+	width: 200%;
+	transform: translateY(-50%) translateX(-50%) translateX(35px) rotate(-45deg);
+	margin-top: 35px;
+	font-size: 13px;
+	line-height: 2;
+	font-weight: 800;
+	text-transform: uppercase;
+	background: #4CAF50; /* Green ribbon */
+	color: white;
+}
+
+/* Elementor heading and text editor styles */
+.elementor-heading-title {
+	padding: 0;
+	margin: 0;
+	line-height: 1
+}
+
+.elementor-widget-heading .elementor-heading-title[class*=elementor-size-] > a {
+	color: inherit;
+	font-size: inherit;
+	line-height: inherit
+}
+
+.elementor-widget-heading .elementor-heading-title.elementor-size-small {
+	font-size: 15px
+}
+
+.elementor-widget-heading .elementor-heading-title.elementor-size-medium {
+	font-size: 19px
+}
+
+.elementor-widget-heading .elementor-heading-title.elementor-size-large {
+	font-size: 29px
+}
+
+.elementor-widget-heading .elementor-heading-title.elementor-size-xl {
+	font-size: 39px
+}
+
+.elementor-widget-heading .elementor-heading-title.elementor-size-xxl {
+	font-size: 59px
+}
+
+.elementor-widget-text-editor.elementor-drop-cap-view-stacked .elementor-drop-cap {
+	background-color: #69727d;
+	color: #fff
+}
+
+.elementor-widget-text-editor.elementor-drop-cap-view-framed .elementor-drop-cap {
+	color: #69727d;
+	border: 3px solid;
+	background-color: transparent
+}
+
+.elementor-widget-text-editor:not(.elementor-drop-cap-view-default) .elementor-drop-cap {
+	margin-top: 8px
+}
+
+.elementor-widget-text-editor:not(.elementor-drop-cap-view-default) .elementor-drop-cap-letter {
+	width: 1em;
+	height: 1em
+}
+
+.elementor-widget-text-editor .elementor-drop-cap {
+	float: left;
+	text-align: center;
+	line-height: 1;
+	font-size: 50px
+}
+
+.elementor-widget-text-editor .elementor-drop-cap-letter {
+	display: inline-block
+}
