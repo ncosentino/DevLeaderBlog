@@ -10,13 +10,15 @@
         </div>
         <div class="profile-text d-flex flex-column">
             <div>@MarkdownConverter.ToMarkupString(Introduction.Value.Description)</div>
-            <SocialAccounts Social="@Social.Value"></SocialAccounts>
             @if (SupportConfiguration.Value.ShowUnderIntroduction)
             {
                 <DonationSection />
             }
         </div>
     </div>
+</div>
+<div class="social-accounts-bar">
+    <SocialAccounts Social="@Social.Value"></SocialAccounts>
 </div>
 @code {
     private string IntroductionClass => !string.IsNullOrEmpty(Introduction.Value.BackgroundUrl)
